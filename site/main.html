@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Musick</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<style>
+    @font-face {
+        font-family: 'Akira';
+        src: url('/assets/fonts/Akira.otf') format('truetype');
+    }
+    
+	body{
+		margin:0;
+	}
+	.container{
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		height: 100vh;
+	}
+	.response-frame{
+		width:100%;
+		height: 100%;
+		padding:0;
+		border: 0px;
+		background: rgb(5,21,30);
+		overflow: hidden;
+	}
+	.player{
+		height: 12%;
+/*		background-image:linear-gradient(to right, rgba(5, 5, 5, 0.8),rgba(5, 5, 5, 0.7));*/
+		position: fixed;
+		bottom:0;
+		backdrop-filter: blur(5rem);
+		
+		justify-content: space-between;
+		align-items:center;
+/*		margin:1%;*/
+/*		width: 98%;*/
+/*		border-radius: 2rem;*/
+		width: 96%;
+		padding:0% 2%;
+		background: rgba(0,0,0,0.9);
+		display: flex;
+		font-size: 3rem;
+		font-family: 'coolvetica';
+		color:rgba(255,255,255,0.9);
+	}
+	.controls{
+		width: 15%;
+		display: flex;
+		justify-content: space-around;
+	}
+	.player-img{
+		height: 72%;
+	    border-radius: 0.5rem;
+	}
+	.player-slider{
+		width: 100%;
+		height: 0.1rem;
+		top:-0.1rem;
+		left:0;
+		position: absolute;
+		-webkit-appearance: none;
+		background: rgb(5, 21, 30);
+	}
+	.player-slider:hover{
+		cursor: pointer;
+}
+
+</style>
+<div class="container">
+<iframe class='response-frame' src= "http://192.168.0.164:2011/"></iframe>
+<div class="player">
+	<input class="player-slider" type="range" min="0" max="100000" step="1" value="1" id="player-slider">
+	<img id="player-img" class='player-img' src="https://lh3.googleusercontent.com/g8bzAg2zxvdnm7ismLMYLA9-9azb4y6VP2uOF56A2G2rpsqLHT6mrJWXRKq_VttXQZ-o-jmVgTFIVgdj=w544-h544-l90-rj">
+	<p id="player-title" >Beatles - Don't Let Me Down</p>
+	<div class='controls'>
+		<audio id="audio_player"></audio>
+		<i class="fa-solid fa-backward"></i>
+		<i class="fa-solid fa-circle-pause"></i>
+		<i class="fa-solid fa-forward"></i>
+	</div>	
+</div>	
+</body>
+<script>
+const audioPlayer = document.getElementById('audio_player');
+window.addEventListener("message", function (event) {
+    if (event.origin !== "http://192.168.0.164:2011") {
+        return;
+    }
+    
+    const receivedData = event.data;
+    console.log("Received message:", receivedData);
+    document.getElementById("player-img").src = receivedData.image;
+    document.getElementById("player-title").textContent = receivedData.title;
+
+	fetch(`/api/mp3/${receivedData.id}`)
+	    .then(response => response.text())
+	    .then(audioStreamUrl => {
+	        // Set the audio source and play the audio
+	        audioPlayer.src = audioStreamUrl;
+	        audioPlayer.play();
+			const playerSlider = document.getElementById('player-slider');
+			audioPlayer.addEventListener('timeupdate', function() {
+			    const currentTime = audioPlayer.currentTime;
+			    const duration = audioPlayer.duration;
+			    const progress = (currentTime / duration) * 100000;
+			    playerSlider.value = progress;
+			});
+
+			playerSlider.addEventListener('input', function() {
+			    const progress = playerSlider.value;
+			    const currentTime = (progress / 100000) * audioPlayer.duration;
+			    audioPlayer.currentTime = currentTime;
+			});
+	    })
+});
+</script>
+</html>
