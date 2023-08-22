@@ -12,6 +12,8 @@ def set_headers(response):
     return response
 app = Flask(__name__, template_folder='site', static_folder='assets')
 
+
+
 @app.route('/home')
 def home_page():
     artists = [{'name': 'Taylor Swift', 'id': 'UCPC0L1d253x-KuMNwa05TpA', 'img': 'https://lh3.googleusercontent.com/U1cI80giSCUuNYx3zkRPt_AWytN1qFMlQoL5F7kTZeFzfIMmfHJYLJchX3BxeDLglE9MeVYp4OlN5Xc=w2880-h1200-p-l90-rj'}, {'name': 'ZAYN', 'id': 'UCYR9erHSNBPjjNswR4FrMaw', 'img': 'https://lh3.googleusercontent.com/x_OLwEjNh74QScfVbc3ejrbxjjG3WFe5CfVrO9KlIT_W2VvHpVC-orFzg-LF2kVYsBGK2YOA5JvUsVE=w2880-h1200-p-l90-rj', 'bio': 'ZAYN is a multi-platinum selling recording artist, producer, and philanthropist known for his skyscraping vocals and hybrid style of pop and R&B. He became the first UK Male Solo artist to simultaneously chart at #1 on the UK and US album charts in the first week of release for his record-breaking debut album Mind of Mine (2016). The album’s lead single, “Pillowtalk,” hit #1 in 68 countries around the world and has since been certified 5x platinum by the RIAA. The album was followed by his gold certified Icarus Falls (2018), and critically acclaimed Nobody is Listening (2021). \n \nThe UK native’s influence spans beyond just music into the fashion world, where ZAYN has collaborated on capsule collections with the likes of Giuseppe Zanotti and Versus Versace, and covered numerous fashion publications including Vogue, GQ, ELLE UK, Highsnobiety, PAPER, The FADER and more. ZAYN has garnered several accolades throughout his career including a Billboard Music Award, American Music Award, MTV VMA, two Brit Award nominations, and was named “Most Stylish Man” at the British GQ Men of the Year Awards.\n \nIn addition to his music ZAYN continues to be a voice for positive change most recently advocating for free school lunches for children living in poverty in the UK.\n \nZAYN is currently working on his highly anticipated fourth studio album.'}, {'name': 'Justin Bieber', 'id': 'UCGvj8kfUV5Q6lzECIrGY19g', 'img': 'https://lh3.googleusercontent.com/iVttpMqOcjor_Rt64WqL0iB8YJ3At97IGNer6qzhYQ7ffoqzVL7pEmxJXmItcZ2Sj_aRT_dewAg1ORg=w2880-h1200-p-l90-rj'}, {'name': 'Katy Perry', 'id': 'UC_7s69e1mDS3lgcTMJEPjCg', 'img': 'https://lh3.googleusercontent.com/eMgihOYKQahtK-vzW1QVALPM7LolBy7yC5NshcOgSwjXotdudRavwmwiSAZmtLfGrvKu2Y3JvGCseXA=w2880-h1200-p-l90-rj'}, {'name': 'Ariana Grande', 'id': 'UC0076UMUgEng8HORUw_MYHA', 'img': 'https://lh3.googleusercontent.com/DU6Kpr5TYKcW6QHvMnsJau5_8QSuix8LCLtf5UEaziZZdXw8SxvcxJ9YWmVIQuzhg2R-MVHYgjdGCQ=w2880-h1200-p-l90-rj'}, {'name': 'Maroon 5', 'id': 'UCdFe4KkWwZ_twpo-UECR-Nw', 'img': 'https://lh3.googleusercontent.com/7jndWy5UJwFJKueBCrizeFWOFwxKUOZZjRMIcPyRlv1X18tY9aJpkuSz_PpamnHVjbYV6s_oER8oi4g=w2880-h1200-p-l90-rj'}, {'name': 'Beyoncé', 'id': 'UCoPQ_TWm8JZ5nJv4a5BzSWA', 'img': 'https://lh3.googleusercontent.com/GAR8Y4xuTIBIrOr0GPSPdhPc-aRvUCOXwiC0O75cKSP7uRoHFvb20K2ZwpaZwxp2IcSoXGBiAgjit-BC=w2880-h1200-p-l90-rj'}, {'name': 'The Weeknd', 'id': 'UClYV6hHlupm_S_ObS1W-DYw', 'img': 'https://lh3.googleusercontent.com/U-SAmNOu4TynE818gLCfKsuHZ0U5YNEtO9mrjSI9WCCKERs98LzrCal5kajBBTQNwdcisoB2Bn-pHp4=w2880-h1200-p-l90-rj'}, {'name': 'Dolly Parton', 'id': 'UCXJscayh5BT8m2ZVFQSdeVw', 'img': 'https://lh3.googleusercontent.com/ZvZFUBod49phwJaA1BDBZZwTNW17-ZQGJRc1TecLbfM41FNhtC6UGFeEDuyxYHrvHJtIj5npLe3R4QRx=w2880-h1200-p-l90-rj'},  {'name': 'Florence + the Machine', 'id': 'UCkmCGbrGa7yNrRl_NHrOaTw', 'img': 'https://lh3.googleusercontent.com/Mrc6nBGklCHoToVgoBkPELexyPylNAVhhyiKFYTOr3DMLpr7BN3Wu4VEmfBnSSnpTgfOk0Lc-RYeUfQ=w2880-h1200-p-l90-rj'}, {'name': 'Drake', 'id': 'UCU6cE7pdJPc6DU2jSrKEsdQ', 'img': 'https://lh3.googleusercontent.com/MxNjcRJ-uK4Xvx7u90IhEFLQM8x9LIGTA9VCKHq5U4Wn2jOgiWaMtg-qz329SIzqnCyhdCCB3MpdAGs=w2880-h1200-p-l90-rj'}, {'name': 'Nicki Minaj', 'id': 'UCTTcTeAszDGxALRSMkJH9FQ', 'img': 'https://lh3.googleusercontent.com/dxazpVxrrUIWVdh49h3-GBhkgI5Wl2ALR5lI1AEldaVbUtz5TN4HfmL_ssUddy2ctEKcSPzNGeFOl-c=w2880-h1200-p-l90-rj'}, {'name': 'Cardi B', 'id': 'UCoIp9Cj1l7k63B90hFg38Zw', 'img': 'https://lh3.googleusercontent.com/EI0DGHwUprlB2Xc4XL0oKDgG_Dv2ejS5F8GaVIDV8w3Zehz14TGLqoTQwP7Am2buVJVJo9oJ1o8Szw=w2880-h1200-p-l90-rj'}]
@@ -31,7 +33,6 @@ def artist_page(artistid):
     raw_data = ytmusic.get_artist(artistid)
     ARTIST_data = {'streams':raw_data['views'],"related":raw_data['related'],"albums":raw_data['albums'],"videos":raw_data['videos'],"songs":raw_data['songs'], "id":raw_data['channelId'],'bio':raw_data['description'], 'name':raw_data['name'],'img':raw_data['thumbnails'][0]['url'].split("=w")[0] +"=w2880-h1200-p-l90-rj"}
     response = make_response(render_template('artist.html', data=ARTIST_data))
-
     return set_headers(response)
 
 @app.route('/album/<albumid>')
@@ -49,6 +50,8 @@ def quiz_page(quiz_id):
     dataset = get_quiz_data(raw_data, 2023)
     response = make_response(render_template('game.html',dataset=dataset,DATA_artist=DATA_artist))
     return set_headers(response)
+
+
 
 @app.route('/api/music/<artist_id>')
 def get_music(artist_id):

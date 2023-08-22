@@ -61,8 +61,8 @@
         width: 100%;
         height: 30rem;
         background-position: top;
-        background-size: cover;
-        background-repeat: no-repeat;
+        background-size: contain;
+        background-repeat: repeat;
     }
 
 
@@ -85,9 +85,11 @@
         margin-bottom: 0.6rem;
         padding: 0;
         font-size: 3.5rem;
+        white-space: pre;
         line-height: 100%;
         color: rgb(255, 255, 255);
-
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     .description {
@@ -286,9 +288,12 @@
     .body-music-text {
         color: rgba(255, 255, 255, 0.5);
         font-size: 1.3rem;
+        /*   background: rgba(255,255,255,0.1);*/
         border-radius: 0.5rem;
+        /*   backdrop-filter: blur(2rem);*/
         padding: 0.4rem;
         margin: 0;
+        /*   margin-top: 0.5rem;*/
         text-align: center;
         white-space: pre;
         text-overflow: ellipsis;
@@ -689,27 +694,6 @@ border-radius: 0.6rem;
         transition: 0.2s ease-in-out
     }
 
-    .play-quiz {
-        height: 5rem;
-        font-size: 2rem;
-        text-align: center;
-        width: 100%;
-        font-family: 'Akira';
-        display: flex;
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.5);
-        justify-content: center;
-        margin-top: 2rem;
-        align-items: center;
-        transition: 0.4s ease-in-out;
-    }
-
-    .play-quiz:hover {
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.8);
-        transform: scale(1.05);
-    }
-
     .save-button {
         font-size: 3rem;
         position: absolute;
@@ -742,6 +726,25 @@ border-radius: 0.6rem;
     .fade-in.active {
         opacity: 1;
     }
+
+    .album-info-btn {
+        background: rgba(255, 255, 255, 0.1);
+        height: fit-content;
+        width: 15rem;
+        margin: 1%;
+        font-size: 1.3rem;
+        border-radius: 1rem;
+        color: white;
+        text-align: center;
+        font-family: 'akira';
+        transition: 0.2s ease-in-out;
+    }
+
+
+    .album-info-btn:hover {
+        transform: scale(1.09);
+        background: rgba(255, 255, 255, 0.5);
+    }
     </style>
     <div id="container" class="container">
         <div class="header">
@@ -749,142 +752,63 @@ border-radius: 0.6rem;
                 <h1>MuSick</h1>
             </a>
         </div>
-        <div class='banner' style="background-image: url({{data['img']}});">
+        <div class='banner' style="background-image: url({{data['thumbnails'][-1]['url'].split('=w')[0] + '=w1000-h1000-l90-rj'}});">
             <div class="banner-overview">
-                <p class="banner-title">{{data['name']}}</p>
-                <p class="description">{{data['bio'][:100]}}..</p>
+                <p class="banner-title" style="font-size: 2rem">ALBUM</p>
+                <p class="banner-title" style="font-family: " coolvetica>{{data['title']}}</p>
                 <div class="big-overview-container">
-                    <div class="music-display-container">
-                        {%for video in data['videos']['results']:%}
-                        <a href="#" class="music-link" data-artist="{{ video['artists'][0]['name'] }}" data-id="{{ video['videoId'] }}" data-title="{{ video['title'] }}" data-image="{{ video['thumbnails'][-1]['url']}}">
-                            <div class="music-display-items">
-                                <img loading="lazy" src="{{video['thumbnails'][-1]['url']}}" />
-                                <p class='music-display-text'> {{video['title']}}</p>
-                                <div class="banner-genre-container" style="width:19rem; position: absolute;bottom:0;margin:1rem 1rem">
-                                    <p class="banner-genre">{{video['views']}} Streams</p>
-                                </div>
-                                <div class="gamepad-button"><i class="fa-solid fa-film" style="font-size: 1.6rem;"></i></div>
-                            </div>
-                        </a>
-                        {%endfor%}
+                    <div class="album-info-btn">
+                        <p>{{data['year']}}</p>
+                    </div>
+                    <div class="album-info-btn">
+                        <p>{{data['trackCount']}} Songs</p>
+                    </div>
+                    <div class="album-info-btn">
+                        <p>{{(data['duration'].replace("minutes", "min")).replace("hours", "hr")}}</p>
+                    </div>
+                    <div class="album-info-btn">
+                        <p>{{data['artists'][0]['name']}}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="banner-body-blender"></div>
         <div class="body-container">
-            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">Albums</p>
+            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">Songs</p>
             <div class="big-overview-container">
                 <div class="music-display-container">
-                    {%for album in data['albums']['results']:%}
-                    <a href="/album/{{album['browseId']}}">
+                    {%for song in data['tracks']:%}
+                    <a href="#" class="music-link" data-artist="{{ song['artists'][0]['name'] }}" data-id="{{ song['videoId'] }}" data-title="{{ song['title'] }}" data-image="{{ data['thumbnails'][-1]['url'].split('=w')[0] + '=w300-h300-l90-rj' }}">
                         <div class="music-display-items" style="width: 16rem;height: 16rem;">
-                            <img loading="lazy" src="{{album['thumbnails'][-1]['url']}}" />
-                            <p class='music-display-text' style="font-size: 1.6rem; width:15rem"> {{album['title']}}</p>
-                            <div class="banner-genre-container" style="width:15rem; position: absolute;margin:1rem 1rem;bottom:0">
-                                <p class="banner-genre" style="background: backdrop-filter: blur(5px);">{{album['year']}}</p>
-                                {%if album['isExplicit']==True:%}
-                                <p class="banner-genre" style="backdrop-filter: blur(5px);">EXPLICIT</p>
-                                {%endif%}
-                            </div>
-                            <div class="gamepad-button"><i class="fa-solid fa-record-vinyl fa-beat-fade" style="font-size: 2rem;"></i></div>
-                        </div>
-                    </a>
-                    {%endfor%}
-                </div>
-            </div>
-            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">Songs - Popular</p>
-            <div class="big-overview-container">
-                <div class="music-display-container">
-                    {%for song in data['songs']['results']:%}
-                    <a href="#" class="music-link" data-artist="{{ song['artists'][0]['name'] }}" data-id="{{ song['videoId'] }}" data-title="{{ song['title'] }}" data-image="{{ song['thumbnails'][-1]['url'].split('=w')[0] + '=w300-h300-l90-rj' }}">
-                        <div class="music-display-items" style="width: 16rem;height: 16rem;">
-                            <img loading="lazy" src="{{song['thumbnails'][-1]['url'].split("=w")[0] +"=w300-h300-l90-rj" }}" />
+                            <img loading="lazy" src="{{data['thumbnails'][-1]['url']}}" />
                             <p class='music-display-text' style="font-size: 1.6rem; width:15rem"> {{song['title']}}</p>
                             <div class="banner-genre-container" style="width:15rem; position: absolute;margin:1rem 1rem;bottom:0">
-                                <p class="banner-genre" style="background: backdrop-filter: blur(5px);">{{song['year']}}</p>
+                                <p class="banner-genre" style="background: backdrop-filter: blur(5px);">{{song['duration']}}</p>
                                 {%if song['isExplicit']==True:%}
                                 <p class="banner-genre" style="backdrop-filter: blur(5px);">EXPLICIT</p>
                                 {%endif%}
                             </div>
-                            <div class="gamepad-button"><i class="fa-solid fa-music" style="font-size: 2rem;"></i></div>
+                            <div class="gamepad-button"><i class="fa-solid fa-music fa-beat-fade" style="font-size: 2rem;"></i></div>
                         </div>
                     </a>
                     {%endfor%}
                 </div>
             </div>
-            <a href="/quiz/{{data['id']}}">
-                <div class="play-quiz">Play Quiz</div>
-            </a>
+            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">About This Album</p>
+            <p class="description">{{data['description']}}..</p>
         </div>
     </div>
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var artistDATA = {{ data|tojson|safe }};
-    var videoIds = artistDATA.videos.results.map(function(idx) {return idx.videoId;});
-    var songsIds = artistDATA.songs.results.map(function(idx) {return idx.videoId;});
-    var allIds = videoIds.concat(songsIds);
-
-    function deleteExpiredTimestamps() {
-            const now = new Date().getTime();
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith("timestamp_")) {
-                    const storedTimestamp = parseInt(localStorage.getItem(key));
-                    if (now - storedTimestamp >= 4 * 60 * 60 * 1000) {
-                        const associatedDataKey = key.replace("timestamp_", ""); // Get the associated data key
-                        localStorage.removeItem(key); // Remove the timestamp key
-                        localStorage.removeItem(`audioStream_${associatedDataKey}`); // Remove audioStream key
-                        localStorage.removeItem(`lyrics_${associatedDataKey}`); // Remove lyrics key
-                    }
-                }
-            }
-        }
-
-        // Call the function to delete expired timestamps
-        deleteExpiredTimestamps();
-    function setLocalStorageItem(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function fetchAndStoreData(videoId) {
-        const audioStreamStorageKey = `audioStream_${videoId}`;
-        const lyricsStorageKey = `lyrics_${videoId}`;
-        const timestampStorageKey = `timestamp_${videoId}`;
-        
-        // Check if the key exists in localStorage
-        if (!localStorage.getItem(audioStreamStorageKey) || !localStorage.getItem(lyricsStorageKey)) {
-            return fetch(`/api/mp3/${videoId}`)
-                .then(response => response.json())
-                .then(audioStreamUrl => {
-                    lyrics_all = audioStreamUrl['lyrics'];
-                    setLocalStorageItem(audioStreamStorageKey, audioStreamUrl);
-                    setLocalStorageItem(lyricsStorageKey, lyrics_all);
-                    setLocalStorageItem(timestampStorageKey, new Date().getTime());
-                    return audioStreamUrl; 
-                });
-        } else {
-            return Promise.resolve(); // No need to fetch, resolve immediately
-        }
-    }
-
-    // Fetch and store data for all videoIds in parallel
-    Promise.all(allIds.map(fetchAndStoreData))
-        .then(allFetchedData => {
-            console.log("All data fetched and stored in localStorage", allFetchedData);
-        })
-        .catch(error => {
-            console.error("Error fetching and storing data:", error);
-        });
-});
-
-    const container = document.getElementById('container');
+    // Get all elements within the container that you want to apply the fade-in effect to
+    const container = document.getElementById('container'); // Replace with your container's ID
     const elements = container.querySelectorAll('*');
 
+    // Add the fade-in class to each element
     elements.forEach(element => {
         element.classList.add('fade-in');
     });
 
+    // Apply the active class after the page loads
     window.addEventListener('load', () => {
         elements.forEach(element => {
             element.classList.add('active');
@@ -903,6 +827,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const image = link.getAttribute("data-image");
                 const artist = link.getAttribute("data-artist");
 
+                // Create the data to be sent in the message
                 const messageData = {
                     id: id,
                     title: title,
@@ -910,6 +835,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     image: image
                 };
 
+                // Send the message to the parent window
                 window.parent.postMessage(messageData, "*");
             });
         });

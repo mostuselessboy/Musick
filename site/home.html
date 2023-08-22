@@ -8,13 +8,16 @@
 
 <body>
     <style>
-    @import url('https://fonts.cdnfonts.com/css/coolvetica');
+        @import url('https://fonts.cdnfonts.com/css/coolvetica');
 
     @font-face {
         font-family: 'Road Rage';
         src: url('/assets/fonts/Road_Rage.otf') format('truetype');
     }
-
+    @font-face {
+        font-family: 'coolvetica';
+        src: url('/assets/fonts/coolvetica.otf') format('truetype');
+    }
     body {
         user-select: none;
         margin: 0;
@@ -93,6 +96,10 @@
 
     .banner-genre-container {
         display: inline-flex;
+        width:19rem;
+        position: absolute;
+        bottom:0;
+        margin:1rem 1rem
     }
 
     .banner-genre {
@@ -498,17 +505,21 @@
         z-index: 3;
     }
 
-    .header input {
-        border: none;
-        border-radius: 1rem;
-        /*   float:left;*/
-        font-size: 1.3rem;
-        padding: 0rem 1rem;
-        color: white;
-        backdrop-filter: blur(0.2rem);
-        font-family: "coolvetica";
-        background: rgba(5, 21, 30, 0.5);
-    }
+   .search input {
+       border: none;
+       width: 98%;
+       border-radius: 1rem;
+       font-size: 1.5rem;
+       padding: 1rem 1rem;
+       color: white;
+       font-family: "coolvetica";
+       background: rgba(255,255,255,0.1);
+   }
+
+   .search input::placeholder {
+  color: rgba(255,255,255,0.1);
+  opacity: 0.2;
+}
 
     .header h1 {
         border-radius: 1rem;
@@ -522,11 +533,11 @@
         color: rgba(255, 255, 255, 0.9);
     }
 
-    .header input::placeholder {
+    .search input::placeholder {
         color: white;
     }
 
-    .header input:focus {
+    .search input:focus {
         border: 0;
         outline: none;
     }
@@ -633,7 +644,8 @@ border-radius: 0.6rem;
     .music-display-items img {
         width: 100%;
         object-fit: cover;
-        border-radius: 2rem;
+        background: rgba(2,2,2,0.6);
+        border-radius: 1rem;
         height: auto;
     }
 
@@ -647,7 +659,8 @@ border-radius: 0.6rem;
         display: flex;
         margin: 1.1rem 1rem;
         width: 20rem;
-        white-space: pre-line;
+        white-space: pre;
+        overflow: hidden;
         text-overflow: ellipsis;
         color: white;
         line-height: 1;
@@ -701,20 +714,22 @@ border-radius: 0.6rem;
     <div id="container" class="container">
         <div class="header">
             <h1>MuSick</h1>
-            <input id="search" placeholder="Search" />
         </div>
         <div class='banner' style="background-image: url({{artists[0]['img']}});">
             <div class="banner-overview">
-                <p class="banner-title">{{artists[0]['name']}}</p>
-                <p class="description">Presenting MUSICK -The A.I. Music Quiz Game, where you can compete with your friends and find out who's the biggest Stan is! Play '{{artists[0]['name']}}' Quiz and compete with your friends.</p>
+                <p class="banner-title">Good Evening!</p>
+                <p class="description">Continue Listening to {{artists[0]['name']}}'s songs to relax your mood up.</p>
+                <div class='search'>
+                    <input id="search" placeholder="Search Song, Artists, Albums and More.. " />
+                </div>
                 <div class="big-overview-container">
-                    <div class="music-display-container">
+                    <div class="music-display-container" id="main-display-container">
                         {%for artist in artists:%}
                         <a href="/artist/{{artist['id']}}">
                             <div class="music-display-items">
                                 <img loading="lazy" src="{{artist['img'].split('=w')[0]+"=w720-h300-l70-rj"}}" />
                                 <p class='music-display-text'> {{artist['name']}}</p>
-                                <div class="banner-genre-container" style="width:19rem; position: absolute;bottom:0;margin:1rem 1rem">
+                                <div class="banner-genre-container">
                                     <p class="banner-genre">Popular</p>
                                     <p class="banner-genre">Artist</p>
                                 </div>
@@ -729,7 +744,7 @@ border-radius: 0.6rem;
         <div class="banner-body-blender"></div>
         <div class="body-container">
             {%for genre in genres:%}
-            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">{{genre}} Quiz</p>
+            <p class="banner-title" style="font-size:2.5rem;text-shadow:0px 0px 2rem rgba(255,255,255,0.2);margin-top:3rem;text-align: left;">{{genre}} </p>
             <div class="big-overview-container">
                 <div class="music-display-container">
                     {%for artist in genres[genre]:%}
@@ -737,19 +752,89 @@ border-radius: 0.6rem;
                         <div class="music-display-items">
                             <img loading="lazy" src="{{artist['img'].split('=w')[0]+"=w720-h300-l70-rj"}}"" />
                             <p class='music-display-text'> {{artist['name']}}</p>
-                            <div class="banner-genre-container" style="width:19rem; position: absolute;bottom:0;margin:1rem 1rem">
-                                <p class="banner-genre">{{genre}}</p>
-                                <p class="banner-genre">Artist</p>
-                            </div>
-                            <div class="gamepad-button"><i class="fa-solid fa-gamepad" style="font-size: 2rem;"></i></div>
+                            <div class=" banner-genre-container">
+                            <p class="banner-genre">{{genre}}</p>
+                            <p class="banner-genre">Artist</p>
                         </div>
-                    </a>
-                    {%endfor%}
+                        <div class="gamepad-button"><i class="fa-solid fa-gamepad" style="font-size: 2rem;"></i></div>
                 </div>
+                </a>
+                {%endfor%}
             </div>
-            {%endfor%}
         </div>
+        {%endfor%}
+    </div>
     </div>
 </body>
+<script type="text/javascript">
+const searchbox = document.getElementById('search');
+
+searchbox.addEventListener('input', function() {
+    const inputValue = searchbox.value;
+    url = "/api/search/" + inputValue;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const mainDisplayContainer = document.getElementById('main-display-container');
+            mainDisplayContainer.innerHTML = '';
+            data.forEach(function(artist) {
+
+                if (artist['resultType'] == "artist") {
+                    linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', "/artist/" + artist['artists'][0]['id'])
+                    musicDisplayItems = document.createElement('div');
+                    musicDisplayItems.className = "music-display-items";
+                    image = document.createElement('img');
+                    image.setAttribute('loading', 'lazy');
+                    image.src = artist['thumbnails'][0]['url'].split('=w')[0] + "=w720-h300-l70-rj";
+                    ptag = document.createElement('p');
+                    ptag.className = 'music-display-text';
+                    ptag.textContent = artist['artists'][0]['name'];
+                    genreContainer = document.createElement('div');
+                    genreContainer.className = "banner-genre-container";
+                    genre1 = document.createElement('p');
+                    genre1.className = 'banner-genre';
+                    genre1.textContent = "ARTIST";
+                    genreContainer.appendChild(genre1);
+                    musicDisplayItems.appendChild(image);
+                    musicDisplayItems.appendChild(ptag);
+                    musicDisplayItems.appendChild(genreContainer);
+                    linkElement.appendChild(musicDisplayItems);
+                    mainDisplayContainer.appendChild(linkElement);
+                };
+                if (artist['resultType'] == 'album') {
+                    linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', "/album/" + artist['browseId'])
+                    musicDisplayItems = document.createElement('div');
+                    musicDisplayItems.className = "music-display-items";
+                    musicDisplayItems.style.width = "13rem";
+                    image = document.createElement('img');
+                    image.setAttribute('loading', 'lazy');
+                    image.src = artist['thumbnails'][0]['url'].split('=w')[0] + "=w300-h300-l70-rj";
+                    ptag = document.createElement('p');
+                    ptag.className = 'music-display-text';
+                    ptag.style.width = "11.5rem";
+                    ptag.textContent = artist['title'];
+                    genreContainer = document.createElement('div');
+                    genreContainer.className = "banner-genre-container";
+                    genre1 = document.createElement('p');
+                    genre1.className = 'banner-genre';
+                    genre1.textContent = "ALBUM";
+                    genreContainer.appendChild(genre1);
+                    musicDisplayItems.appendChild(image);
+                    musicDisplayItems.appendChild(ptag);
+                    musicDisplayItems.appendChild(genreContainer);
+                    linkElement.appendChild(musicDisplayItems);
+                    mainDisplayContainer.appendChild(linkElement);
+
+
+
+                }
+
+
+            })
+        })
+});
+</script>
 
 </html>

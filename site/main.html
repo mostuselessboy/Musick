@@ -2,7 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.6">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 	<title>Musick</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -12,10 +14,31 @@
         font-family: 'Akira';
         src: url('/assets/fonts/Akira.otf') format('truetype');
     }
-    
+    @font-face {
+        font-family: 'coolvetica';
+        src: url('/assets/fonts/coolvetica.otf') format('truetype');
+    }
 	body{
 		margin:0;
 	}
+
+   ::-webkit-scrollbar {
+		width: 1rem;
+		height: 0.5rem;
+		background-color: rgb(255, 255, 255,0.1);
+		border-radius: 20rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(20, 20, 20, 0.1);
+        border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: grey;
+    }
+
+
 	.container{
 		display: flex;
 		width: 100%;
@@ -32,62 +55,215 @@
 	}
 	.player{
 		height: 12%;
-/*		background-image:linear-gradient(to right, rgba(5, 5, 5, 0.8),rgba(5, 5, 5, 0.7));*/
 		position: fixed;
 		bottom:0;
-		backdrop-filter: blur(5rem);
-		
+		backdrop-filter: blur(7rem);
 		justify-content: space-between;
 		align-items:center;
-/*		margin:1%;*/
-/*		width: 98%;*/
-/*		border-radius: 2rem;*/
-		width: 96%;
+		border-radius: 0.5rem;
+		width: 95%;
+		margin: 0.5%;
 		padding:0% 2%;
-		background: rgba(0,0,0,0.9);
-		display: flex;
-		font-size: 3rem;
+		background:rgba(188, 204, 212, 0.6);
+		display: none;
+		font-size: 2.2rem;
 		font-family: 'coolvetica';
 		color:rgba(255,255,255,0.9);
+		transition: 0.4s ease-in-out;
 	}
+	.player-fullscreen{
+		height: 100%;
+		margin: 0;
+		padding:0%;
+		width: 100%;
+		justify-content: center;
+		flex-direction: column;
+
+	}
+
+	@keyframes glow {
+	  0% {
+	    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+	  }
+	  100% {
+	    box-shadow: 0 0 5rem rgba(00,0, 1);
+	  }
+	}
+	.player-music-data-fullscreen{
+		justify-content: center;
+		flex-direction: column;
+		transition: 01s ease-in-out;
+
+
+	}
+	.controls-fullscreen{
+		width: 70% !important;
+	}
+	.video-fullscreen{
+		height: 25rem !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	    background: rgba(0, 0, 0, 0);
+	    margin: auto 0px;
+	    margin-right: 0!important;
+	    transition: 0.4s ease-in-out;
+	    border-radius: 1rem !important;
+	    animation: 1s glow infinite alternate;
+	}
+	.lyrics-container{
+		display: none;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		height: 25rem !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	    background: rgba(255, 255, 255, 0.3);
+	    margin: auto 0px;
+	    transition: 0.4s ease-in-out;
+	    border-radius: 1rem !important;
+	    animation: 1s glow infinite alternate;
+	}
+	.lyrics-container p{
+		padding: 0% 8%;
+		transition: 0.2s ease-in-out;
+}
+
+	.lyrics-container p:hover{
+		padding: 0% 8%;
+		background: rgba(255,255,255,0.3);
+		border-radius: 1rem;
+		transform: scale(1.01);
+}
 	.controls{
-		width: 15%;
+		width: 25%;
 		display: flex;
 		justify-content: space-around;
 	}
 	.player-img{
-		height: 72%;
-	    border-radius: 0.5rem;
+    height: 3.5rem;
+    margin: auto 0px;
+    transition: 0.4s ease-in-out;
+    margin-right: 1rem;
+    border-radius: 0.5rem;
+
+	}
+
+	.player-music-data{
+	display: flex;
+	width: 60%;
+	}
+	.active-repeat{
+		backdrop-filter:box-shadow( 0 0 1rem limegreen);
+		color:limegreen;
 	}
 	.player-slider{
-		width: 100%;
-		height: 0.1rem;
-		top:-0.1rem;
-		left:0;
-		position: absolute;
-		-webkit-appearance: none;
-		background: rgb(5, 21, 30);
-	}
+	    width: 99%;
+	    height: 0.2rem;
+	    top: 0;
+	    opacity: 0.4;
+	    border-radius: 0.2rem;
+	    left: 0.5%;
+	    position: absolute;
+	    margin: 0px auto;
+/*	    -webkit-appearance: none;
+	    background: rgba(255, 255, 255, 0.2);
+*/	}
 	.player-slider:hover{
 		cursor: pointer;
 }
 
+.player-slider::-webkit-slider-thumb {
+  transform: scale(0.01);
+  background-color:red;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Show the thumb on hover */
+.player-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.5);
+}
+
+.player-text-div{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.player-btn{
+	transition: 0.1s ease-in-out;
+}
+.player-btn:hover{
+	color: rgba(255,255,255,0.5);
+	border-radius: 50%;
+	cursor: pointer;
+	transform: scale(1.2);
+}
+
+.slider-fullscreen{
+	height: 0.5rem;
+    margin: 3% 0px;
+    position: relative;
+}
+
+.player-text-with-like{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+}
+.player-img:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+}
+.player-text-with-like-fullscreen{
+	margin-top:2%;
+    justify-content: space-between !important;
+}
 </style>
+<style>
+
+<!-- MEDIA QUERIES -->
+@media screen and (max-width: 768px) {
+.player{
+	font-size: 2rem !important;
+}
+
+}
+</style></body>
 <div class="container">
-<iframe class='response-frame' src= "http://192.168.0.164:2011/"></iframe>
-<div class="player">
+<iframe class='response-frame' src= "/home"></iframe>
+<div class="player" id="player">
 	<input class="player-slider" type="range" min="0" max="100000" step="1" value="1" id="player-slider">
-	<img id="player-img" class='player-img' src="https://lh3.googleusercontent.com/g8bzAg2zxvdnm7ismLMYLA9-9azb4y6VP2uOF56A2G2rpsqLHT6mrJWXRKq_VttXQZ-o-jmVgTFIVgdj=w544-h544-l90-rj">
-	<p id="player-title" >Beatles - Don't Let Me Down</p>
-	<div class='controls'>
-		<audio id="audio_player"></audio>
-		<i class="fa-solid fa-backward"></i>
-		<i class="fa-solid fa-circle-pause"></i>
-		<i class="fa-solid fa-forward"></i>
+	<div class="player-music-data" id="player-music-data" >
+	<img id="player-img" style =" display:none"crossorigin="anonymous" class='player-img' src="https://lh3.googleusercontent.com/g8bzAg2zxvdnm7ismLMYLA9-9azb4y6VP2uOF56A2G2rpsqLHT6mrJWXRKq_VttXQZ-o-jmVgTFIVgdj=w544-h544-l90-rj">
+	<video id="audio_player" class="player-img"></video>
+	<div id='lyrics-container' class="lyrics-container">
+		<p id='lyrics'></p>
+	</div>
+	<div class='player-text-with-like' id="player-text-with-like">
+	<div class="player-text-div">
+	<p id="player-title" style="margin:0;" >Beatles - Don't Let Me Down</p>
+	<p id="player-artist" style="margin:0;font-size:1.3rem;color:rgba(255,255,255,0.6)">Beatles</p>
+	</div>
+	<div id="lyric-btn-container" style="display: flex;width:15%;justify-content: space-evenly;">
+	<i id="lyrics-btn" class="fa-solid fa-music player-btn" style="display:none;margin:0px 2%"></i>
+	<i class="fa-solid fa-guitar player-btn" style="display:none; margin:0px 3%" id="downloadbtn"></i>
+	</div>
+	</div>
+	</div>
+	<div class='controls' id='controls'>
+		<i class="fa-solid fa-bars player-btn" id="queue-btn" style="display:none"></i>
+		<i class="fa-solid fa-backward player-btn"></i>
+		<i class="fa-solid fa-pause player-btn" id="playbtn"></i>
+		<i class="fa-solid fa-forward player-btn"></i>
+		<i class="fa-solid fa-repeat player-btn" id="repeat-btn" style="display:none"></i>
 	</div>	
 </div>	
 </body>
+<script src="/assets/js/color-thief.min.js"></script>
+
 <script>
+
+const player = document.getElementById('player');
 const audioPlayer = document.getElementById('audio_player');
 window.addEventListener("message", function (event) {
     if (event.origin !== "http://192.168.0.164:2011") {
@@ -96,14 +272,76 @@ window.addEventListener("message", function (event) {
     
     const receivedData = event.data;
     console.log("Received message:", receivedData);
-    document.getElementById("player-img").src = receivedData.image;
+    playerIMG =document.getElementById("player-img")
+    playerIMG.style.display ="block"
+    audioPlayer.style.display ="none"
+    audioPlayer.disablePictureInPicture = true;
+	playerIMG.src = '/assets/img/loading.gif';
     document.getElementById("player-title").textContent = receivedData.title;
+    document.getElementById("player-artist").textContent = receivedData.artist;
+    setTimeout(audioPlayer.pause, 2000);
 
-	fetch(`/api/mp3/${receivedData.id}`)
-	    .then(response => response.text())
-	    .then(audioStreamUrl => {
-	        // Set the audio source and play the audio
-	        audioPlayer.src = audioStreamUrl;
+
+	function deleteExpiredTimestamps() {
+	    const now = new Date().getTime();
+	    for (let i = 0; i < localStorage.length; i++) {
+	        const key = localStorage.key(i);
+	        if (key.startsWith("timestamp_")) {
+	            const storedTimestamp = parseInt(localStorage.getItem(key));
+	            if (now - storedTimestamp >= 4 * 60 * 60 * 1000) {
+	                const associatedDataKey = key.replace("timestamp_", ""); // Get the associated data key
+	                localStorage.removeItem(key); // Remove the timestamp key
+	                localStorage.removeItem(`audioStream_${associatedDataKey}`); // Remove audioStream key
+	                localStorage.removeItem(`lyrics_${associatedDataKey}`); // Remove lyrics key
+	            }
+	        }
+	    }
+	}
+
+	// Call the function to delete expired timestamps
+	deleteExpiredTimestamps();
+
+	const audioStreamStorageKey = `audioStream_${receivedData.id}`;
+	const lyricsStorageKey = `lyrics_${receivedData.id}`;
+	const timestampStorageKey = `timestamp_${receivedData.id}`;
+
+
+
+	function setLocalStorageItem(key, value) {
+	    localStorage.setItem(key, JSON.stringify(value));
+	}
+
+	function getLocalStorageItem(key) {
+	    const storedValue = localStorage.getItem(key);
+	    return storedValue ? JSON.parse(storedValue) : null;
+	}
+
+	function fetchAndSetupData() {
+	    fetch(`/api/mp3/${receivedData.id}`)
+	        .then(response => response.json())
+	        .then(audioStreamUrl => {
+	            player.style.display = "flex";
+	            currentid = receivedData.id;
+	            audioPlayer.src = audioStreamUrl['url'];
+	            lyrics_all = audioStreamUrl['lyrics'];
+
+
+	        document.getElementById("lyrics-container").innerHTML ='';
+	        for (let i = 0; i < lyrics_all.length; i++) {
+	        lyric = document.createElement('p');
+	        lyric.textContent = lyrics_all[i];
+	        document.getElementById("lyrics-container").appendChild(lyric);;
+	    	}
+		    image = playerIMG
+		    audioPlayer.style.display ="block"
+		    playerIMG.style.display ="none"
+		    image.src = receivedData.image;
+			var colorThief = new ColorThief();
+		    image.addEventListener('load', function() {
+		    var dominantColor = colorThief.getColor(image);
+	        var colorString = 'rgba(' + dominantColor[0] + ',' + dominantColor[1] + ',' + dominantColor[2] + ',0.6)';
+	        player.style.backgroundColor = colorString;
+		    });
 	        audioPlayer.play();
 			const playerSlider = document.getElementById('player-slider');
 			audioPlayer.addEventListener('timeupdate', function() {
@@ -118,7 +356,220 @@ window.addEventListener("message", function (event) {
 			    const currentTime = (progress / 100000) * audioPlayer.duration;
 			    audioPlayer.currentTime = currentTime;
 			});
-	    })
+
+	            // Store data in localStorage for future use
+	            setLocalStorageItem(audioStreamStorageKey, audioStreamUrl);
+	            setLocalStorageItem(lyricsStorageKey, lyrics_all);
+	            setLocalStorageItem(timestampStorageKey, (new Date().getTime()));
+	        })
+	        .catch(error => {
+	            console.error(`Error fetching data for videoId ${receivedData.id}`, error);
+	        });
+	}
+
+	// Retrieve stored data from localStorage
+	const storedAudioStream = getLocalStorageItem(audioStreamStorageKey);
+	const storedLyrics = getLocalStorageItem(lyricsStorageKey);
+
+
+	if (storedAudioStream && storedLyrics) {
+	    // Use stored data from localStorage
+	    const storedAudioStreamUrl = storedAudioStream.url;
+	    const storedLyricsArray = storedLyrics;
+
+	    player.style.display = "flex";
+	    currentid = receivedData.id;
+	    audioPlayer.src = storedAudioStreamUrl;
+	    lyrics_all = storedLyricsArray;
+
+	        document.getElementById("lyrics-container").innerHTML ='';
+	        for (let i = 0; i < lyrics_all.length; i++) {
+	        lyric = document.createElement('p');
+	        lyric.textContent = lyrics_all[i];
+	        document.getElementById("lyrics-container").appendChild(lyric);;
+	    	}
+		    image = playerIMG
+		    audioPlayer.style.display ="block"
+		    playerIMG.style.display ="none"
+		    image.src = receivedData.image;
+			var colorThief = new ColorThief();
+		    image.addEventListener('load', function() {
+		    var dominantColor = colorThief.getColor(image);
+	        var colorString = 'rgba(' + dominantColor[0] + ',' + dominantColor[1] + ',' + dominantColor[2] + ',0.6)';
+	        player.style.backgroundColor = colorString;
+		    });
+	        audioPlayer.play();
+			const playerSlider = document.getElementById('player-slider');
+			audioPlayer.addEventListener('timeupdate', function() {
+			    const currentTime = audioPlayer.currentTime;
+			    const duration = audioPlayer.duration;
+			    const progress = (currentTime / duration) * 100000;
+			    playerSlider.value = progress;
+			});
+
+			playerSlider.addEventListener('input', function() {
+			    const progress = playerSlider.value;
+			    const currentTime = (progress / 100000) * audioPlayer.duration;
+			    audioPlayer.currentTime = currentTime;
+			});	} else {
+	    fetchAndSetupData();
+	}
+
+	// fetch(`/api/mp3/${receivedData.id}`)
+	//     .then(response => response.json())
+	//     .then(audioStreamUrl => {
+	//     	player.style.display="flex";
+	//     	currentid = receivedData.id;
+	//         // Set the audio source and play the audio
+	//         audioPlayer.src = audioStreamUrl['url'];
+	//         lyrics_all = audioStreamUrl['lyrics']
+	//         document.getElementById("lyrics-container").innerHTML ='';
+	//         for (let i = 0; i < lyrics_all.length; i++) {
+	//         lyric = document.createElement('p');
+	//         lyric.textContent = lyrics_all[i];
+	//         document.getElementById("lyrics-container").appendChild(lyric);;
+	//     	}
+	// 	    image = playerIMG
+	// 	    audioPlayer.style.display ="block"
+	// 	    playerIMG.style.display ="none"
+	// 	    image.src = receivedData.image;
+	// 		var colorThief = new ColorThief();
+	// 	    image.addEventListener('load', function() {
+	// 	    var dominantColor = colorThief.getColor(image);
+	//         var colorString = 'rgba(' + dominantColor[0] + ',' + dominantColor[1] + ',' + dominantColor[2] + ',0.6)';
+	//         player.style.backgroundColor = colorString;
+	// 	    });
+	//         audioPlayer.play();
+	// 		const playerSlider = document.getElementById('player-slider');
+	// 		audioPlayer.addEventListener('timeupdate', function() {
+	// 		    const currentTime = audioPlayer.currentTime;
+	// 		    const duration = audioPlayer.duration;
+	// 		    const progress = (currentTime / duration) * 100000;
+	// 		    playerSlider.value = progress;
+	// 		});
+
+	// 		playerSlider.addEventListener('input', function() {
+	// 		    const progress = playerSlider.value;
+	// 		    const currentTime = (progress / 100000) * audioPlayer.duration;
+	// 		    audioPlayer.currentTime = currentTime;
+	// 		});
+	//     })
+
+
+
 });
+
+
+  const downloadbtn = document.getElementById("downloadbtn");
+  iskaroake =false;
+	
+  downloadbtn.addEventListener("click", function () {
+  	currenttitle = document.getElementById('player-title').textContent;
+  	currentartist =document.getElementById('player-artist').textContent;
+  	currentdata = currenttitle+"||"+currentartist;
+	fetch(`/api/karoake/${currentdata }`)
+	    .then(response => response.text())
+	    .then(audioStreamUrl => {
+	    	if (iskaroake==false){
+	    	timecache = audioPlayer.currentTime;
+	    	srccahce = audioPlayer.src;
+	    	audioPlayer.src = audioStreamUrl;
+	    	audioPlayer.currentTime = timecache+6;
+	    	audioPlayer.play();}
+	    else{
+	    	timecache = audioPlayer.currentTime;
+	    	audioPlayer.src = srccahce;
+	    	audioPlayer.currentTime =timecache;
+	    	audioPlayer.play();}
+	    })
+	    	iskaroake = !iskaroake;
+	});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const lyricsbtn = document.getElementById("lyrics-btn");
+  const queuebtn = document.getElementById("queue-btn");
+  const repeatbtn = document.getElementById("repeat-btn");
+  const downloadbtn = document.getElementById("downloadbtn");
+  isFullScreen=false;
+  const player = document.getElementById("player");
+  const playermusicdata = document.getElementById("player-music-data");
+const video = document.getElementById("audio_player");
+const playBtn = document.getElementById("playbtn");
+
+playBtn.addEventListener('click', () => {
+  if (video.paused) {
+    video.play();
+    playBtn.classList.remove('fa-play');
+    playBtn.classList.add('fa-pause');
+  } else {
+    video.pause();
+    playBtn.classList.remove('fa-pause');
+    playBtn.classList.add('fa-play');
+  }
+});
+
+video.addEventListener('play', () => {
+  playBtn.classList.remove('fa-play');
+  playBtn.classList.add('fa-pause');
+});
+
+repeatbtn.addEventListener('click', ()=>{
+	video.loop = !video.loop;
+	repeatbtn.classList.toggle("active-repeat");
+})
+video.addEventListener('pause', () => {
+  playBtn.classList.remove('fa-pause');
+  playBtn.classList.add('fa-play');
+});
+
+  const lyricsContainer= document.getElementById("lyrics-container");
+  const controls =document.getElementById("controls");
+  const playerSlider = document.getElementById("player-slider");
+  const playertextwithlike = document.getElementById("player-text-with-like");
+  isLyricScreen = false;
+  // const fullscreenButton = document.getElementById("fullscreen-button");
+  lyricsbtn.addEventListener("click", function () {
+	if (isLyricScreen) {
+	      video.style.display='block';
+	      lyricsContainer.style.display='none';
+	  }
+	  else{
+	      video.style.display='none';
+	      lyricsContainer.style.display='block';
+	  }
+	    isLyricScreen = !isLyricScreen;
+
+	});
+  video.addEventListener("click", function () {
+    player.classList.toggle("player-fullscreen");
+    video.classList.toggle("video-fullscreen");
+    controls.classList.toggle("controls-fullscreen");
+    playermusicdata.classList.toggle("player-music-data-fullscreen");
+    playerSlider.classList.toggle("slider-fullscreen");
+    playertextwithlike.classList.toggle("player-text-with-like-fullscreen");
+
+   if (isFullScreen) {
+      player.appendChild(playerSlider);
+      lyricsbtn.style.display='none';
+      repeatbtn.style.display='none';
+      queuebtn.style.display='none';
+      downloadbtn.style.display='none';
+
+    } else {
+      playermusicdata.appendChild(playerSlider);
+      lyricsbtn.style.display='block';
+      queuebtn.style.display='block';
+      repeatbtn.style.display='block';
+      downloadbtn.style.display='block';
+
+    }
+
+    isFullScreen = !isFullScreen;
+
+  });
+});
+
+
+
 </script>
 </html>
