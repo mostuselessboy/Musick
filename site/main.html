@@ -218,6 +218,24 @@
 	margin-top:2%;
     justify-content: space-between !important;
 }
+@keyframes movingGradient {
+    0% {
+        background: linear-gradient(to right, white, rgb(240,240,240));
+        background-size: 200% 100%;
+        background-position: left center;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+    100% {
+        background: linear-gradient(to right, rgba(230,230,230), white);
+        background-size: 200% 100%;
+        background-position: right center;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}
 </style>
 <style>
 
@@ -241,7 +259,7 @@
 	</div>
 	<div class='player-text-with-like' id="player-text-with-like">
 	<div class="player-text-div">
-	<p id="player-title" style="margin:0;" >Beatles - Don't Let Me Down</p>
+	<p id="player-title" style="margin:0;animation:movingGradient 5s infinite linear" >Beatles - Don't Let Me Down</p>
 	<p id="player-artist" style="margin:0;font-size:1.3rem;color:rgba(255,255,255,0.6)">Beatles</p>
 	</div>
 	<div id="lyric-btn-container" style="display: flex;width:15%;justify-content: space-evenly;">
@@ -279,6 +297,7 @@ window.addEventListener("message", function (event) {
 	playerIMG.src = '/assets/img/loading.gif';
     document.getElementById("player-title").textContent = receivedData.title;
     document.getElementById("player-artist").textContent = receivedData.artist;
+
     setTimeout(audioPlayer.pause, 2000);
 
 
@@ -411,7 +430,50 @@ window.addEventListener("message", function (event) {
 			    const progress = playerSlider.value;
 			    const currentTime = (progress / 100000) * audioPlayer.duration;
 			    audioPlayer.currentTime = currentTime;
-			});	} else {
+			});	
+
+			synclyric_query = receivedData.title +" " +receivedData.artist;
+			console.log("💖💖💖💖"+synclyric_query);
+const synclyric_fetchurl = "https://apispotifylyrics.mostuselessboy.repl.co/get_lyrics?query=" + synclyric_query;
+fetch(synclyric_fetchurl)
+    .then(response => response.json())
+    .then(lyrics_data => {
+        console.log(lyrics_data);
+
+        const audioPlayer = document.getElementById("audio_player"); // Replace with the actual ID of your audio player
+        const lyricsContainer = document.getElementById("player-title");
+
+        if (!lyrics_data.error) {
+            const lyricsLines = lyrics_data.lines;
+            
+            audioPlayer.addEventListener("timeupdate", () => {
+                let currentLyric = "";
+                const currentTime = audioPlayer.currentTime * 1000;
+
+                for (const line of lyricsLines) {
+                    const startTime = parseInt(line.startTimeMs);
+
+                    if (startTime <= currentTime) {
+                        currentLyric = line.words;
+                    } else {
+                        break;
+                    }
+                }
+
+                lyricsContainer.textContent = currentLyric;
+                if (lyricsContainer.textContent == ""){
+                	lyricsContainer.textContent = "♪";
+                }
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching lyrics:", error);
+    });
+
+
+
+		} else {
 	    fetchAndSetupData();
 	}
 

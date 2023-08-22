@@ -799,16 +799,13 @@ border-radius: 0.6rem;
         </div>
     </div>
     <script>
-    // Get all elements within the container that you want to apply the fade-in effect to
-    const container = document.getElementById('container'); // Replace with your container's ID
+    const container = document.getElementById('container'); 
     const elements = container.querySelectorAll('*');
 
-    // Add the fade-in class to each element
     elements.forEach(element => {
         element.classList.add('fade-in');
     });
 
-    // Apply the active class after the page loads
     window.addEventListener('load', () => {
         elements.forEach(element => {
             element.classList.add('active');
@@ -827,7 +824,6 @@ border-radius: 0.6rem;
                 const image = link.getAttribute("data-image");
                 const artist = link.getAttribute("data-artist");
 
-                // Create the data to be sent in the message
                 const messageData = {
                     id: id,
                     title: title,
@@ -835,7 +831,6 @@ border-radius: 0.6rem;
                     image: image
                 };
 
-                // Send the message to the parent window
                 window.parent.postMessage(messageData, "*");
             });
         });
